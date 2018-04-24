@@ -1,0 +1,19 @@
+/**
+ * less mixins
+ */
+
+// 文本超出省略号
+.text-overflow() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+// 多行文本超出省略号
+.line-num-overflow(@num) {
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: @num !important;
+    -webkit-box-orient: vertical;
+}
