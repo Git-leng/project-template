@@ -1,5 +1,5 @@
 <style lang="less">
-    @import '~src/assets/less/basic.less';
+    @import '~src/assets/less/index.less';
     .pg-index {}
 </style>
 <template>

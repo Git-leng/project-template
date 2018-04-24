@@ -14,11 +14,8 @@ module.exports = {
             "required": true,
             "message": "部门名称",
             "choices": [
-                "dafengche",
-                "finance",
-                "shanghai",
-                "souche",
-                "cheniu"
+                "vue",
+                "project"
             ]
         },
         "name": {

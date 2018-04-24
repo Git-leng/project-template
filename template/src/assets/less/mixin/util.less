@@ -1,0 +1,32 @@
+////////////////////////////////////////////////////////////////////////
+//                             utils.less                             //
+////////////////////////////////////////////////////////////////////////
+
+// 封装一些常用LESS
+// eg:
+
+.clearfix() {
+    &:before,
+    &:after {
+        display: table;
+        content: "";
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+.size(@size) {
+    width: @size;
+    height: @size;
+}
+.size(@wdith, @height) {
+    width: @wdith;
+    height: @height;
+}
+
+// 透明度, 兼容 IE8
+.opacity(@opacity: 20) {
+    opacity: @opacity / 100;
+    filter: alpha(opacity=@opacity);
+}

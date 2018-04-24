@@ -1,0 +1,113 @@
+////////////////////////////////////////////////////////////////////////
+//                           shorthand.less                           //
+////////////////////////////////////////////////////////////////////////
+
+//封装一些简写LESS
+// eg:
+// .absolute(x, x, _, _);
+// .fix(x, x, _, _);
+// .relative(x, x, _, _);
+// .padding(x, x, _, _);
+// .margin(x, x, _, _);
+
+.shorthand(@values, @prefix: ~"", @suffix: ~"", @collapse: false) {
+    @l: length(@values);
+    @pre: ~`'@{prefix}' ? '@{prefix}-' : ''`;
+    @suf: ~`'@{suffix}' ? '-@{suffix}' : ''`;
+
+    .map(1) {
+        @top: extract(@values, 1);
+        @right: @top;
+        @bottom: @top;
+        @left: @top;
+    }
+    .map(2) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: @top;
+        @left: @right;
+    }
+    .map(3) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: extract(@values, 3);
+        @left: @right;
+    }
+    .map(4) {
+        @top: extract(@values, 1);
+        @right: extract(@values, 2);
+        @bottom: extract(@values, 3);
+        @left: extract(@values, 4);
+    }
+    .map(@l);
+
+    .reduce() when (@collapse) and not (@top = _) and not (@right = _)
+        and not (@bottom = _) and not (@left = _) {
+        .output() {
+            @shorthand: @top;
+        }
+        .output() when not (@right = @top) {
+            @shorthand: @top @right;
+        }
+        .output() when not (@bottom = @top) {
+            @shorthand: @top @right @bottom;
+        }
+        .output() when not (@left = @right) {
+            @shorthand: @top @right @bottom @left;
+        }
+        .output();
+        @{prefix}@{suf}: @shorthand;
+    }
+    .reduce() when (default()) {
+        .output() when not (@top = _) {
+            @{pre}top@{suf}: @top;
+        }
+        .output() when not (@right = _) {
+            @{pre}right@{suf}: @right;
+        }
+        .output() when not (@bottom = _) {
+            @{pre}bottom@{suf}: @bottom;
+        }
+        .output() when not (@left = _) {
+            @{pre}left@{suf}: @left;
+        }
+        .output();
+    }
+
+    .reduce();
+}
+
+.absolute(...) {
+    position: absolute;
+    .shorthand(@arguments);
+}
+
+.fixed(...) {
+    position: fixed;
+    .shorthand(@arguments);
+}
+
+.relative(...) {
+    position: relative;
+    .shorthand(@arguments);
+}
+
+.padding(...) {
+    .shorthand(@arguments, padding, ~"", true);
+}
+
+.margin(...) {
+    .shorthand(@arguments, margin, ~"", true);
+}
+
+.border-color(...) {
+    .shorthand(@arguments, border, color, true);
+}
+
+.border-style(...) {
+    .shorthand(@arguments, border, style, true);
+}
+
+.border-width(...) {
+    .shorthand(@arguments, border, width, true);
+}
