@@ -8,15 +8,24 @@ function lazyLoad(path) {
     return () => import('src/' + path + '.vue');
 }
 
-// 处理路由数据，然后使用
-let routes = [];
-for (let key in routeData) {
-    let item = {};
-    item.name = routeData[key].name;
-    item.component = lazyLoad(routeData[key].path);
-    item.path = key;
-    routes.push(item);
-}
+let converRouter = (data) => {
+    let arr = [];
+    for (let key in data) {
+        if ({}.hasOwnProperty.call(data, key)) {
+            let item = {};
+            item.name = data[key].name;
+            item.path = key;
+            item.component = lazyLoad(data[key].path);
+            if (data[key] && data[key].children) {
+                item.children = converRouter(data[key].children);
+            }
+            arr.push(item);
+        }
+    }
+    return arr;
+};
+
+let routes = converRouter(routerMap);
 
 Vue.use(Router);
 
